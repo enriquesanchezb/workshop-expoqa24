@@ -5,7 +5,7 @@ from src.prompt_helper import execute_prompt, generate_prompt
 
 
 def summarize(text: str, llm: str = "llama3") -> str:
-    """Summarize a conversation."""
+    """Summarize a text."""
 
     llm = Ollama(model=llm)
     system_message_prompt_template = summary_template["systemMessagePromptTemplate"]
