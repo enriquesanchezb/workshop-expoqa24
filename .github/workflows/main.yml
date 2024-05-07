@@ -2,9 +2,9 @@ name: Sentiment Analysis for Voice
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "5-github-actions"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "5-github-actions"]
 
 permissions:
   contents: read
