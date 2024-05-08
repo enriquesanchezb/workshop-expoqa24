@@ -1,7 +1,6 @@
 import gradio as gr
 
 from src.sentiment import analyze_sentiment
-from src.summarize import summarize
 from src.transcribe import transcribe_audio
 
 TITLE = """<h1 align="center">🎤 Emotion Detection 💬</h1>"""
@@ -52,18 +51,15 @@ def display_sentiment_results(sentiment_results: dict) -> str:
     return sentiment_text
 
 
-def summarize_sentiment(text: str) -> str:
-    """Summarizes the sentiment analysis results"""
-    return summarize(text)
-
-
-def get_ouput(audio_file: str) -> (str, str):
+def get_ouput(audio_file: str, audio_file_uploaded: str) -> (str, str):
     """Returns the transcribed text and the sentiment analysis results"""
+    if audio_file_uploaded:
+        audio_file = audio_file_uploaded
+
     try:
         text = transcribe_audio(audio_file)
         sentiment = analyze_sentiment(text)
-        summary = summarize_sentiment(text)
-        return text, display_sentiment_results(sentiment), summary
+        return text, display_sentiment_results(sentiment)
     except Exception as e:
         print(f"Error in transcribe_audio: {e}")
         return "", "Error in transcription."
@@ -76,15 +72,24 @@ def main():
         gr.HTML(TITLE)
 
         with gr.Group():
-            audio_input = gr.Audio(sources=["microphone"], type="filepath")
-            output_text = gr.Textbox(label="Transcription")
-            emotion_output = gr.Textbox(label="Emotion Analysis")
-            summary = gr.Textbox(label="Summary")
+            audio_input = gr.Audio(
+                sources=["microphone"], type="filepath", elem_id="audio_input"
+            )
+            upload_audio = gr.UploadButton(
+                label="Upload Audio",
+                file_types=["audio"],
+                type="filepath",
+                elem_id="upload_audio",
+            )
+            output_text = gr.Textbox(label="Transcription", elem_id="output_text")
+            emotion_output = gr.Textbox(
+                label="Emotion Analysis", elem_id="emotion_output"
+            )
 
             gr.Interface(
                 fn=get_ouput,
-                inputs=audio_input,
-                outputs=[output_text, emotion_output, summary],
+                inputs=[audio_input, upload_audio],
+                outputs=[output_text, emotion_output],
                 title="Get the text and the sentiment",
                 description="Upload an audio file and hit the 'Submit'\
                                   button",
