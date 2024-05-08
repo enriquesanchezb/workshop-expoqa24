@@ -51,8 +51,11 @@ def display_sentiment_results(sentiment_results: dict) -> str:
     return sentiment_text
 
 
-def get_ouput(audio_file: str) -> (str, str):
+def get_ouput(audio_file: str, audio_file_uploaded: str) -> (str, str):
     """Returns the transcribed text and the sentiment analysis results"""
+    if audio_file_uploaded:
+        audio_file = audio_file_uploaded
+
     try:
         text = transcribe_audio(audio_file)
         sentiment = analyze_sentiment(text)
@@ -69,13 +72,23 @@ def main():
         gr.HTML(TITLE)
 
         with gr.Group():
-            audio_input = gr.Audio(sources=["microphone"], type="filepath")
-            output_text = gr.Textbox(label="Transcription")
-            emotion_output = gr.Textbox(label="Emotion Analysis")
+            audio_input = gr.Audio(
+                sources=["microphone"], type="filepath", elem_id="audio_input"
+            )
+            upload_audio = gr.UploadButton(
+                label="Upload Audio",
+                file_types=["audio"],
+                type="filepath",
+                elem_id="upload_audio",
+            )
+            output_text = gr.Textbox(label="Transcription", elem_id="output_text")
+            emotion_output = gr.Textbox(
+                label="Emotion Analysis", elem_id="emotion_output"
+            )
 
             gr.Interface(
                 fn=get_ouput,
-                inputs=audio_input,
+                inputs=[audio_input, upload_audio],
                 outputs=[output_text, emotion_output],
                 title="Get the text and the sentiment",
                 description="Upload an audio file and hit the 'Submit'\
