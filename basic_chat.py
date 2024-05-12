@@ -1,6 +1,6 @@
 from langchain_community.llms import Ollama
 
-ollama = Ollama(model="mistral")
+ollama = Ollama(model="phi3")
 
 
 def chat(messages):
