@@ -38,4 +38,4 @@ jobs:
           poetry run ruff --output-format=github .
       - name: Test with pytest
         run: |
-          poetry run pytest --cov=src tests/
+          poetry run pytest tests/
