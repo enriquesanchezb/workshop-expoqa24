@@ -1,6 +1,7 @@
 import gradio as gr
 
 from src.sentiment import analyze_sentiment
+from src.summarize import summarize
 from src.transcribe import transcribe_audio
 
 TITLE = """<h1 align="center">🎤 Emotion Detection 💬</h1>"""
@@ -51,7 +52,12 @@ def display_sentiment_results(sentiment_results: dict) -> str:
     return sentiment_text
 
 
-def get_ouput(audio_file: str, audio_file_uploaded: str) -> (str, str):
+def summarize_sentiment(text: str) -> str:
+    """Summarizes the sentiment analysis results"""
+    return summarize(text)
+
+
+def get_ouput(audio_file: str, audio_file_uploaded: str) -> (str, str, str):
     """Returns the transcribed text and the sentiment analysis results"""
     if audio_file_uploaded:
         audio_file = audio_file_uploaded
@@ -59,10 +65,11 @@ def get_ouput(audio_file: str, audio_file_uploaded: str) -> (str, str):
     try:
         text = transcribe_audio(audio_file)
         sentiment = analyze_sentiment(text)
-        return text, display_sentiment_results(sentiment)
+        summary = summarize_sentiment(text)
+        return text, display_sentiment_results(sentiment), summary
     except Exception as e:
         print(f"Error in transcribe_audio: {e}")
-        return "", "Error in transcription."
+        return "", "Error in transcription.", ""
 
 
 def main():
@@ -85,11 +92,11 @@ def main():
             emotion_output = gr.Textbox(
                 label="Emotion Analysis", elem_id="emotion_output"
             )
-
+            summary = gr.Textbox(label="Summary", elem_id="summary")
             gr.Interface(
                 fn=get_ouput,
                 inputs=[audio_input, upload_audio],
-                outputs=[output_text, emotion_output],
+                outputs=[output_text, emotion_output, summary],
                 title="Get the text and the sentiment",
                 description="Upload an audio file and hit the 'Submit'\
                                   button",
