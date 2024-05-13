@@ -35,8 +35,3 @@ def analyze_sentiment_with_model(text: str, model_enum: Model) -> dict:
 def analyze_sentiment(text: str, model: Model = Model.ROBERTA) -> dict:
     """Wrapper function to analyze sentiment, defaults to ROBERTA model."""
     return analyze_sentiment_with_model(text, model)
-
-
-# Example usage:
-result = analyze_sentiment("Your text here")
-print(result)
