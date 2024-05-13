@@ -35,6 +35,9 @@ Develop a random text generator using another model. This generator will serve a
 
 ## Tips for Testing
 
+The best way to do verifications is using [Langchain Evaluators](https://python.langchain.com/v0.1/docs/guides/productionization/evaluation/). For this case you can use [criteria evaluation](https://python.langchain.com/v0.1/docs/guides/productionization/evaluation/string/criteria_eval_chain/).
+Using this library, some of the things you need to evaluate for testing are:
+
 - **Consistency Checks:** Even though the content may vary, certain aspects like summary length or specific keyword presence can be consistently tested.
 - **Regression Tests:** If you have a set of known good inputs and outputs, you can use these for regression testing to ensure the model's performance remains stable over updates.
 - **Automated vs Manual Testing:** Consider automating what is consistent and reviewing variabilities manually or with a less strict automated test to allow for natural language variation.
