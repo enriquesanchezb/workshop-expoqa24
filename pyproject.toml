@@ -16,6 +16,8 @@ faster-whisper = "^1.0.1"
 transformers = "^4.39.3"
 tensorflow = "^2.16.1"
 tf-keras = "^2.16.0"
+rouge = "^1.0.1"
+evaluate = "^0.4.2"
 
 
 [tool.poetry.group.dev.dependencies]
