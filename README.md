@@ -22,6 +22,9 @@ Support
 
 If you have any questions or need additional help during the workshop, feel free to ask the organizers or refer to the support materials provided in each branch.
 
+
+**Note:** You can find solutions [here](https://github.com/enriquesanchezb/workshop-solutions)
+
 ---
 
 Happy coding and successful hacking! 👾
